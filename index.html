@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Ayesha 🎂</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@400;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink:    #f9a8d4;
+    --rose:    #fb7185;
+    --lavender:#c4b5fd;
+    --cream:   #fff1f8;
+    --text:    #6b3a5e;
+    --gold:    #fbbf24;
+    --mint:    #6ee7b7;
+  }
+
+  body { font-family: 'Nunito', sans-serif; overflow: hidden; background: var(--cream); }
+
+  /* ─── PAGES ─── */
+  .page {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity .6s ease;
+    overflow: hidden;
+  }
+  .page.active { opacity: 1; pointer-events: all; }
+
+  /* ─── PAGE 1 ─── */
+  #p1 { background: linear-gradient(135deg, #fce7f3 0%, #ede9fe 100%); }
+
+  #p1 h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--text); margin-bottom: .5rem;
+  }
+  #p1 p { color: #a855f7; font-size: 1.1rem; margin-bottom: 2rem; }
+
+  /* gift box */
+  .gift { font-size: 6rem; animation: bounce 1.4s ease-in-out infinite; cursor: pointer; }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-18px) rotate(3deg); }
+  }
+
+  /* ─── PAGE 2 ─── */
+  #p2 { background: linear-gradient(135deg, #fef3c7 0%, #fce7f3 100%); }
+  #p2 h2 { font-family:'Dancing Script',cursive; font-size:clamp(1.8rem,5vw,3rem); color:var(--text); margin-bottom:.4rem; }
+  #p2 .sub { color:#f59e0b; font-size:1rem; margin-bottom:1.5rem; }
+
+  /* cake */
+  .cake-wrap { margin: 1rem auto; }
+  .cake { font-size: 7rem; animation: wiggle 2s ease-in-out infinite; display:inline-block; }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-4deg) scale(1); }
+    50%      { transform: rotate(4deg) scale(1.05); }
+  }
+
+  /* ─── PAGE 3 ─── */
+  #p3 { background: linear-gradient(135deg, #ede9fe 0%, #fce7f3 100%); }
+  .card-outer {
+    background: white;
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    max-width: 500px;
+    box-shadow: 0 8px 40px #c084fc44;
+    transform: rotate(-1.5deg);
+    border: 2px dashed var(--pink);
+    position: relative;
+  }
+  .card-outer::before {
+    content:'💌';
+    position:absolute; top:-1.5rem; left:50%; transform:translateX(-50%);
+    font-size:2.5rem;
+  }
+  .card-outer p {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.35rem;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .card-outer .bday-line {
+    font-size: 1.6rem;
+    color: var(--rose);
+    font-weight: 700;
+  }
+
+  /* ─── PAGE 4 (FINAL) ─── */
+  #p4 {
+    background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #831843 100%);
+  }
+  #p4 h2 {
+    font-family:'Dancing Script',cursive;
+    font-size: clamp(2rem,6vw,3.2rem);
+    color: #fde68a;
+    text-shadow: 0 0 20px #fbbf2488;
+    margin-bottom: .5rem;
+  }
+  #p4 p { color: #f9a8d4; font-size: 1rem; max-width: 420px; line-height: 1.8; margin-bottom: 1.5rem; }
+
+  /* photo frame */
+  #photo-frame {
+    display: none;
+    margin: 1rem auto;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 4px solid var(--gold);
+    background: #4c1d95 url('your-photo-here.jpg') center/cover no-repeat;
+    box-shadow: 0 0 0 8px #fbbf2433, 0 0 40px #f9a8d455;
+    font-size: 5rem;
+    align-items: center; justify-content: center;
+    animation: glow 2s ease-in-out infinite;
+  }
+  #photo-frame.show { display: flex; }
+  @keyframes glow {
+    0%,100% { box-shadow: 0 0 0 8px #fbbf2433, 0 0 40px #f9a8d455; }
+    50%      { box-shadow: 0 0 0 14px #fbbf2455, 0 0 60px #f9a8d488; }
+  }
+
+  /* ─── BUTTON ─── */
+  .btn {
+    display: inline-block;
+    padding: .85rem 2.2rem;
+    border-radius: 50px;
+    border: none; cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--rose), #a855f7);
+    color: white;
+    box-shadow: 0 4px 18px #f472b655;
+    transition: transform .2s, box-shadow .2s;
+    margin-top: 1.5rem;
+  }
+  .btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 8px 28px #f472b688; }
+  .btn:active { transform: scale(.97); }
+
+  .btn-light {
+    background: linear-gradient(135deg, var(--gold), #fb7185);
+    box-shadow: 0 4px 18px #fbbf2455;
+  }
+
+  /* ─── FLOATING HEARTS/STARS ─── */
+  .floaters { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .floater {
+    position: absolute;
+    font-size: 1.4rem;
+    animation: float-up linear infinite;
+    opacity: .75;
+  }
+  @keyframes float-up {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: .8; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ─── CONFETTI ─── */
+  #confetti-canvas {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 10;
+  }
+
+  /* ─── MUSIC NOTE ─── */
+  #music-btn {
+    position: fixed; bottom: 1.2rem; right: 1.2rem;
+    background: #ffffff33; backdrop-filter: blur(6px);
+    border: 1.5px solid #ffffff55;
+    color: white; border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 1.2rem; cursor: pointer;
+    display: none; align-items: center; justify-content: center;
+    z-index: 100;
+    transition: transform .2s;
+  }
+  #music-btn:hover { transform: scale(1.1); }
+  #music-btn.show { display: flex; }
+
+  /* z-ordering */
+  .page > * { position: relative; z-index: 1; }
+
+  /* progress dots */
+  #dots {
+    position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; gap: .5rem; z-index: 20;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #f9a8d4; opacity: .4;
+    transition: opacity .3s, transform .3s;
+  }
+  .dot.active { opacity: 1; transform: scale(1.4); background: var(--rose); }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- floating hearts/stars bg -->
+<div class="floaters" id="floaters"></div>
+
+<!-- ── PAGE 1 ── -->
+<div class="page active" id="p1">
+  <h1>Hey Ayesha… 💌</h1>
+  <p>I made something just for you ✨</p>
+  <div class="gift" onclick="goTo(2)">🎁</div>
+  <button class="btn" onclick="goTo(2)">Open Your Surprise ✨</button>
+</div>
+
+<!-- ── PAGE 2 ── -->
+<div class="page" id="p2">
+  <h2>Today is all about YOU! 🥳</h2>
+  <p class="sub">Because you deserve the whole world 🌸</p>
+  <div class="cake-wrap">
+    <span class="cake">🎂</span>
+  </div>
+  <button class="btn" onclick="goTo(3)">There's More… 👀</button>
+</div>
+
+<!-- ── PAGE 3 ── -->
+<div class="page" id="p3">
+  <div class="card-outer">
+    <p>"Some people come into your life and somehow make ordinary days feel special. I'm really lucky to have a friend like you. 💗"</p>
+    <p class="bday-line">Happy Birthday, Ayesha! 🎂✨</p>
+  </div>
+  <button class="btn" onclick="goTo(4)">See Your Surprise 🎉</button>
+</div>
+
+<!-- ── PAGE 4 ── -->
+<div class="page" id="p4">
+  <h2>Happy Birthday, Bestie! 🎂💗</h2>
+  <p>May this year bring you tons of happiness, beautiful memories, and everything you're wishing for. Keep smiling, keep being you, and never forget how special you are! 🫶</p>
+  <div id="photo-frame">🤍</div>
+  <button class="btn btn-light" id="surprise-btn" onclick="finalSurprise()">🎁 Click for One Last Surprise</button>
+</div>
+
+<!-- progress dots -->
+<div id="dots">
+  <div class="dot active" id="d1"></div>
+  <div class="dot" id="d2"></div>
+  <div class="dot" id="d3"></div>
+  <div class="dot" id="d4"></div>
+</div>
+
+<!-- music toggle -->
+<button id="music-btn" onclick="toggleMusic()">🎵</button>
+
+<!-- hidden audio -->
+<audio id="bday-music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  let currentPage = 1;
+  let musicPlaying = false;
+  let confettiRunning = false;
+  const audio = document.getElementById('bday-music');
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // ── Floaters ──
+  const symbols = ['💗','✨','🌸','💖','⭐','🎀','💫','🌷'];
+  const floatersEl = document.getElementById('floaters');
+  for (let i = 0; i < 18; i++) spawnFloater();
+  function spawnFloater() {
+    const el = document.createElement('div');
+    el.className = 'floater';
+    el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (6 + Math.random() * 8) + 's';
+    el.style.animationDelay = (Math.random() * 10) + 's';
+    el.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+    floatersEl.appendChild(el);
+  }
+
+  // ── Page nav ──
+  function goTo(n) {
+    document.getElementById('p' + currentPage).classList.remove('active');
+    document.getElementById('d' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('p' + n).classList.add('active');
+    document.getElementById('d' + n).classList.add('active');
+    if (n === 4) {
+      document.getElementById('music-btn').classList.add('show');
+      launchConfetti(true); // light confetti on final page load
+    }
+  }
+
+  // ── Final surprise ──
+  function finalSurprise() {
+    document.getElementById('surprise-btn').style.display = 'none';
+    document.getElementById('photo-frame').classList.add('show');
+    launchConfetti(false);
+    if (!musicPlaying) { audio.play().catch(()=>{}); musicPlaying = true; }
+    document.getElementById('music-btn').textContent = '🔊';
+  }
+
+  // ── Music toggle ──
+  function toggleMusic() {
+    if (musicPlaying) {
+      audio.pause(); musicPlaying = false;
+      document.getElementById('music-btn').textContent = '🎵';
+    } else {
+      audio.play().catch(()=>{}); musicPlaying = true;
+      document.getElementById('music-btn').textContent = '🔊';
+    }
+  }
+
+  // ── Confetti ──
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  const pieces = [];
+  const COLORS = ['#f9a8d4','#fbbf24','#c4b5fd','#6ee7b7','#fb7185','#ffffff','#fde68a'];
+
+  function launchConfetti(light) {
+    const count = light ? 80 : 200;
+    for (let i = 0; i < count; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * 200,
+        r: 3 + Math.random() * 6,
+        d: Math.random() * count,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        tilt: Math.floor(Math.random() * 10) - 10,
+        tiltAngle: 0,
+        tiltAngleInc: (Math.random() * .07) + .05,
+        vx: (Math.random() - .5) * 3,
+        vy: 1.5 + Math.random() * 3,
+        shape: Math.random() > .5 ? 'rect' : 'circle',
+        life: 1
+      });
+    }
+    if (!confettiRunning) { confettiRunning = true; drawConfetti(); }
+  }
+
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+    for (let p of pieces) {
+      if (p.life <= 0) continue;
+      alive = true;
+      ctx.save();
+      ctx.globalAlpha = Math.min(p.life, 1);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      if (p.shape === 'circle') {
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      } else {
+        ctx.rect(p.x, p.y, p.r * 2, p.r);
+      }
+      ctx.fill();
+      ctx.restore();
+      p.x += p.vx;
+      p.y += p.vy;
+      p.tiltAngle += p.tiltAngleInc;
+      p.tilt = Math.sin(p.tiltAngle) * 12;
+      if (p.y > canvas.height + 20) p.life = 0;
+    }
+    if (alive) requestAnimationFrame(drawConfetti);
+    else { confettiRunning = false; ctx.clearRect(0,0,canvas.width,canvas.height); }
+  }
+</script>
+</body>
+</html>
