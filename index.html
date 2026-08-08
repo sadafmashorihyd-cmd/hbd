@@ -232,11 +232,8 @@
 
 <!-- YouTube iframe hidden, used as audio source via Web Audio trick -->
 <!-- Using a reliable royalty-free happy birthday piano piece -->
-<audio id="bday-music" loop preload="none">
-  <!-- Soft piano birthday music — royalty free from pixabay CDN -->
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_1408c7a761.mp3" type="audio/mpeg">
-  <!-- fallback -->
-  <source src="https://cdn.pixabay.com/download/audio/2021/11/25/audio_0daa514d48.mp3" type="audio/mpeg">
+<audio id="bday-music" loop preload="auto">
+  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -247,12 +244,7 @@
   const canvas = document.getElementById('confetti-canvas');
   const ctx = canvas.getContext('2d');
 
-  // Remove the annoying ended/loop sound glitch — ensure seamless loop
-  audio.addEventListener('timeupdate', function() {
-    if (audio.duration && audio.currentTime > audio.duration - 0.3) {
-      audio.currentTime = 0;
-    }
-  });
+
 
   // Floaters
   const symbols = ['💗','✨','🌸','💖','⭐','🎀','💫','🌷'];
