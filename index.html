@@ -232,15 +232,14 @@
 
 <!-- YouTube iframe hidden, used as audio source via Web Audio trick -->
 <!-- Using a reliable royalty-free happy birthday piano piece -->
-<audio id="bday-music" loop preload="auto">
-  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
-</audio>
+<!-- Hidden YouTube player for music -->
+
 
 <script>
   let currentPage = 1;
   let musicPlaying = false;
   let confettiRunning = false;
-  const audio = document.getElementById('bday-music');
+
   const canvas = document.getElementById('confetti-canvas');
   const ctx = canvas.getContext('2d');
 
@@ -272,9 +271,7 @@
       document.getElementById('music-btn').classList.add('show');
       launchConfetti(true);
       // Auto-play music on final page
-      audio.play().catch(() => {});
-      musicPlaying = true;
-      document.getElementById('music-btn').textContent = '🔊';
+      setTimeout(playMusic, 1000);
     }
   }
 
@@ -283,25 +280,10 @@
     document.getElementById('surprise-btn').style.display = 'none';
     document.getElementById('photo-frame').classList.add('show');
     launchConfetti(false);
-    if (!musicPlaying) {
-      audio.play().catch(() => {});
-      musicPlaying = true;
-      document.getElementById('music-btn').textContent = '🔊';
-    }
+    if (!musicPlaying) { playMusic(); }
   }
 
-  // Music toggle
-  function toggleMusic() {
-    if (musicPlaying) {
-      audio.pause();
-      musicPlaying = false;
-      document.getElementById('music-btn').textContent = '🎵';
-    } else {
-      audio.play().catch(() => {});
-      musicPlaying = true;
-      document.getElementById('music-btn').textContent = '🔊';
-    }
-  }
+
 
   // Confetti
   canvas.width = window.innerWidth;
@@ -358,6 +340,79 @@
     if (alive) requestAnimationFrame(drawConfetti);
     else { confettiRunning = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
   }
+</script>
+
+<!-- YouTube IFrame API -->
+
+
+
+<script>
+// ── Web Audio Birthday Music ──
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+let musicInterval = null;
+
+// Happy Birthday melody: notes as [freq, duration]
+const NOTE = {
+  G4:392, A4:440, B4:494, C5:523, D5:587, E5:659, F5:698, G5:784, A5:880, R:0
+};
+
+// Happy Birthday To You melody
+const melody = [
+  [NOTE.G4,0.75],[NOTE.G4,0.25],[NOTE.A4,1],[NOTE.G4,1],[NOTE.C5,1],[NOTE.B4,2],
+  [NOTE.G4,0.75],[NOTE.G4,0.25],[NOTE.A4,1],[NOTE.G4,1],[NOTE.D5,1],[NOTE.C5,2],
+  [NOTE.G4,0.75],[NOTE.G4,0.25],[NOTE.G5,1],[NOTE.E5,1],[NOTE.C5,1],[NOTE.B4,1],[NOTE.A4,2],
+  [NOTE.F5,0.75],[NOTE.F5,0.25],[NOTE.E5,1],[NOTE.C5,1],[NOTE.D5,1],[NOTE.C5,2],
+];
+
+let noteIndex = 0;
+let scheduledStop = null;
+
+function playNote(freq, dur) {
+  if (!audioCtx) return;
+  if (freq === 0) return; // rest
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur * 0.9);
+  osc.start(audioCtx.currentTime);
+  osc.stop(audioCtx.currentTime + dur);
+}
+
+function playNextNote() {
+  if (!musicPlaying) return;
+  const [freq, dur] = melody[noteIndex % melody.length];
+  playNote(freq, dur * 0.42);
+  noteIndex++;
+  scheduledStop = setTimeout(playNextNote, dur * 420);
+}
+
+function playMusic() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  musicPlaying = true;
+  noteIndex = 0;
+  playNextNote();
+  document.getElementById('music-btn').textContent = '🔊';
+}
+
+function toggleMusic() {
+  if (!musicPlaying) {
+    if (!audioCtx) audioCtx = new AudioCtx();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    musicPlaying = true;
+    playNextNote();
+    document.getElementById('music-btn').textContent = '🔊';
+  } else {
+    musicPlaying = false;
+    if (scheduledStop) clearTimeout(scheduledStop);
+    document.getElementById('music-btn').textContent = '🎵';
+  }
+}
 </script>
 </body>
 </html>
